@@ -35,6 +35,6 @@ jobs:
         gcloud components update
         gcloud container clusters get-credentials gke-project-426920-gke --region us-east5 --project gke-project-426920
         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-        helm install my-prometheus prometheus-community/prometheus > ./values.yaml  -n prometheus1
+        helm install my-prometheus prometheus-community/prometheus > ./values.yaml  -n prometheus
         ls
         kubectl apply -f values.yaml -n prometheus1
