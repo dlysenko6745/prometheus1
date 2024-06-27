@@ -28,13 +28,24 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+    - name: Clone Grafana
+      uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+      with:
+        depth: 1
+        branch: 'main'
+        owner: 'dlysenko6745'
+        repository: 'prometheus1'
+    
+    - name: Access cloned repo
+      run: |
+         cd prometheus1
+         ls -la   
+
     - name: Deploy with Helm
       env:
         CLOUDSDK_PYTHON: /usr/bin/python3
       run: |
         gcloud components update
         gcloud container clusters get-credentials gke-project-426920-gke --region us-east5 --project gke-project-426920
-        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-        helm install my-prometheus prometheus-community/prometheus > ./values.yaml  -n prometheus
-        ls
-        kubectl apply -f values.yaml -n prometheus1
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 
+        helm install my-prometheus prometheus-community/prometheus -f values.yaml -n prometheus 
